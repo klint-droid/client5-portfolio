@@ -4,35 +4,28 @@ import { SealCheck } from '@/components/slab'
 import ThemeGlyph from './ThemeGlyph'
 import {
   HomeIcon,
-  FolderIcon,
-  StackIcon,
-  CupIcon,
-  StarIcon,
   UserIcon,
-  MessageIcon,
+  ResultsIcon,
+  ServicesIcon,
+  ExperienceIcon,
+  ToolsIcon,
+  CredentialsIcon,
+  SetupIcon,
+  HireIcon,
 } from './RailIcons'
 import { getTheme, toggleTheme, type Theme } from '@/lib/theme'
 import { profile } from '@/data/profile'
 
-/**
- * The profile rail: the fixed left column of the shell. It carries identity,
- * the theme switch and the section index, and it is the site's only navigation
- * surface from 1100px up - the floating NavBar pill hides there and takes over
- * again below it.
- *
- * The links are ROUTES, not anchors. Home is a fixed non-scrolling viewport, so
- * there is nothing for a scrollspy to spy on; the panel to the right swaps
- * instead. `NavLink` owns the active state, which is why there is no
- * IntersectionObserver here.
- */
 export const RAIL_LINKS = [
   { label: 'Home', to: '/', Icon: HomeIcon },
-  { label: 'Projects', to: '/projects', Icon: FolderIcon },
-  { label: 'Services', to: '/services', Icon: StackIcon },
-  { label: 'Showcase', to: '/showcase', Icon: CupIcon },
-  { label: 'Testimonials', to: '/testimonials', Icon: StarIcon },
   { label: 'About', to: '/about', Icon: UserIcon },
-  { label: 'FAQs / Contact', to: '/contact', Icon: MessageIcon },
+  { label: 'Results', to: '/results', Icon: ResultsIcon },
+  { label: 'Services', to: '/services', Icon: ServicesIcon },
+  { label: 'Experience', to: '/experience', Icon: ExperienceIcon },
+  { label: 'Tools', to: '/tools', Icon: ToolsIcon },
+  { label: 'Credentials', to: '/credentials', Icon: CredentialsIcon },
+  { label: 'Remote Setup', to: '/setup', Icon: SetupIcon },
+  { label: 'Hire Me', to: '/contact', Icon: HireIcon },
 ] as const
 
 export default function Rail() {

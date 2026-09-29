@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from '@/components/slab'
+import { ArrowUpRight, Sparkle, MapPin, SealCheck, Stack } from '@/components/slab'
 import { profile } from '@/data/profile'
 import ToolsMarquee from './ToolsMarquee'
 import HomeBento from './HomeBento'
@@ -7,26 +7,6 @@ import { HomeProfile, HomeStats, HomeExplore } from './HomeMobile'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useIsPhone } from '@/hooks/useMediaQuery'
 
-/**
- * Home. One viewport, three bands, no scroll:
- *
- *   head       the display line the intro writes, then the lede
- *   tools      "Tools I work with" beside the marquee, on its own plate
- *   showcase   the bento - one card per view, see HomeBento - on its own
- *
- * The grid is `auto auto 1fr` so the showcase absorbs the slack instead of
- * pushing the panel into a scrollbar. Every other view scrolls; this one is
- * laid out to the box.
- *
- * On a phone the page becomes an app screen: a profile header where the rail
- * used to be, the proof stats under the lede, and the bento replaced by a
- * snap row of tiles (HomeMobile). The CTA leaves the head - the tab bar's
- * Contact action carries it on every screen.
- *
- * `.home__title` is also the intro's landing target: IntroOverlay measures it
- * and flies its copy into this exact rect, so the line the visitor watched
- * being written is the line that stays on the page.
- */
 export default function Home() {
   useScrollReveal()
   const phone = useIsPhone()
@@ -37,33 +17,93 @@ export default function Home() {
       {phone && <HomeProfile />}
 
       <div className="home__head">
+        {/* Availability tag */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: 'var(--success)',
+              background: 'rgba(46, 158, 107, 0.1)',
+              padding: '4px 12px',
+              borderRadius: '999px',
+              border: '1px solid rgba(46, 158, 107, 0.25)',
+            }}
+          >
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--success)', display: 'inline-block' }} />
+            {profile.availability}
+          </span>
+
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
+              fontSize: '12px',
+              color: 'var(--muted)',
+            }}
+          >
+            <MapPin size={14} weight="fill" />
+            {profile.location}
+          </span>
+
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '12px',
+              color: 'var(--muted)',
+            }}
+          >
+            · <SealCheck size={14} weight="fill" style={{ color: 'var(--verified)' }} />
+            {profile.verifiedLabel}
+          </span>
+        </div>
+
         <div className="home__headline">
           <h1 className="home__title" id="home-title">
             <span className="home__line">
-              {displayName.line1} {displayName.line2}
+              {displayName.line1}
+            </span>
+            <span className="home__line" style={{ color: 'var(--orange-ink)' }}>
+              {displayName.line2}
             </span>
           </h1>
 
           {!phone && (
-            <Link className="home__cta" to="/contact">
-              Get in touch
-              <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
-            </Link>
+            <div className="home__actions">
+              <Link className="home__cta" to="/contact">
+                Let's work together
+                <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
+              </Link>
+              <Link className="home__cta-secondary" to="/services">
+                <Stack size={16} weight="bold" />
+                See how I can help
+              </Link>
+            </div>
           )}
         </div>
 
-        <p className="home__lede">{hero.body}</p>
+        <p className="home__lede" style={{ maxWidth: '64ch' }}>
+          {hero.body}
+        </p>
+
         {phone && <HomeStats />}
       </div>
 
-      {/* Two plates, not one. The tools band and the bento are different
-          objects - a strip you read across and a grid you pick from - and one
-          shared sheet made the strip look like the bento's header. */}
+      {/* Tools Band */}
       <div className="home__glass home__glass--tools">
         <div className="home__tools">
           <div className="home__tools-head">
-            <span className="home__tools-eyebrow">Daily drivers</span>
-            <h2 className="home__tools-label">Tools I work with</h2>
+            <span className="home__tools-eyebrow">
+              <Sparkle size={12} weight="fill" style={{ color: 'var(--orange)', display: 'inline', marginRight: '4px' }} />
+              Tech stack
+            </span>
+            <h2 className="home__tools-label">Fluent in your tools</h2>
           </div>
           <ToolsMarquee />
         </div>

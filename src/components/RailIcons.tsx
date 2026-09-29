@@ -1,10 +1,18 @@
 /**
- * Rail icons - Slab Duo glyphs (see components/slab), wrapped in the `.ricon`
- * class so rail.css can lift the whole mark on hover. The earlier Its Hover
- * per-part choreography does not apply to filled two-tone glyphs; the rail
- * keeps its row slide and the icon gets a single lift + tilt instead.
+ * Rail icons - Slab Duo glyphs wrapped in .ricon
  */
-import { House, FolderOpen, Stack, Coffee, Star, User, ChatCircle, type Icon } from '@/components/slab'
+import {
+  House,
+  User,
+  ChartLineUp,
+  Stack,
+  Briefcase,
+  Wrench,
+  Certificate,
+  Desktop,
+  EnvelopeSimple,
+  type Icon,
+} from '@/components/slab'
 
 type IconProps = { size?: number }
 
@@ -19,9 +27,11 @@ function wrap(Glyph: Icon) {
 }
 
 export const HomeIcon = wrap(House)
-export const FolderIcon = wrap(FolderOpen)
-export const StackIcon = wrap(Stack)
-export const CupIcon = wrap(Coffee)
-export const StarIcon = wrap(Star)
 export const UserIcon = wrap(User)
-export const MessageIcon = wrap(ChatCircle)
+export const ResultsIcon = wrap(ChartLineUp)
+export const ServicesIcon = wrap(Stack)
+export const ExperienceIcon = wrap(Briefcase)
+export const ToolsIcon = wrap(Wrench)
+export const CredentialsIcon = wrap(Certificate)
+export const SetupIcon = wrap(Desktop)
+export const HireIcon = wrap(EnvelopeSimple)

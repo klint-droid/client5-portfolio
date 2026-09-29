@@ -1,37 +1,17 @@
 import { useState, type FormEvent } from 'react'
-import { PaperPlaneTilt, CheckCircle, WarningCircle, EnvelopeSimple, ArrowUpRight, CaretDown } from '@/components/slab'
+import { PaperPlaneTilt, CheckCircle, WarningCircle, EnvelopeSimple, ArrowUpRight, CaretDown, Phone, MapPin, LinkedinLogo } from '@/components/slab'
 import { FAQS } from '@/data/faqs'
 import { profile } from '@/data/profile'
 import { readLead, submitLead, SubmitError, MAX_NAME, MAX_EMAIL, MAX_MESSAGE, type SubmitResult } from '@/lib/contact'
 
-/**
- * ContactGrid - the Contact view as a fixed viewport.
- *
- * One glass sheet, two columns: the questions people ask before they write
- * on the left, on a dark plate (one open at a time, the list scrolls), and
- * the form itself on the right. Sized to the panel, so
- * nothing here scrolls; the message box takes whatever height is left.
- *
- * Submission goes through lib/contact.ts, which is the one place a form
- * backend gets wired. Until it is, the same call opens the visitor's mail
- * client with the message laid out, and the success copy says so.
- */
-
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'error'; note: string } | { kind: 'sent'; via: SubmitResult['via'] }
 
-/* The plane takes this long to leave the button. The sent state waits for it
-   even when the submit itself is instant, so the send is something you see
-   happen rather than a panel that blinks. */
 const FLIGHT_MS = 650
-
 const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
 
 export default function ContactGrid() {
   const [status, setStatus] = useState<Status>({ kind: 'idle' })
-  // Bumped on every failed submit so the shake replays even if the same
-  // error is already showing.
   const [shake, setShake] = useState(0)
-  // One question open at a time so the plate never grows past the form.
   const [openFaq, setOpenFaq] = useState<number | null>(0)
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -58,24 +38,24 @@ export default function ContactGrid() {
   return (
     <section className="pgrid cgrid" aria-labelledby="contact-title">
       <header className="pgrid__head">
-        <span className="pgrid__eyebrow">FAQs / Contact</span>
+        <span className="pgrid__eyebrow">HIRE ME</span>
         <h1 className="pgrid__title" id="contact-title">
-          Your contact headline goes here.
+          Let’s talk
         </h1>
         <p className="pgrid__lede">
-          PLACEHOLDER - tell me what to put here: one or two lines inviting people to write and saying what they get back.
+          Ready to take the busywork off your plate? Tell me what’s slowing you down. I’ll reply quickly with how I can help — and you’ll see for yourself why fast, thoughtful communication is my default.
         </p>
       </header>
 
       <div className="home__glass cgrid__glass">
-        {/* Left: the dark plate. What happens after you press send. */}
+        {/* Left: FAQs and Direct Channels */}
         <aside className="cgrid__aside" aria-labelledby="contact-faq">
           <div className="cgrid__aside-head">
             <span className="cgrid__eyebrow">FAQs</span>
             <h2 className="cgrid__aside-title" id="contact-faq">
               Quick answers.
               <br />
-              <span>Still have one? Write below.</span>
+              <span>Still have one? Reach out below.</span>
             </h2>
           </div>
 
@@ -103,24 +83,60 @@ export default function ContactGrid() {
             })}
           </ul>
 
-          <div className="cgrid__direct">
-            <a className="cgrid__mail" href={`mailto:${profile.email}`}>
+          <div className="cgrid__direct" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <a className="cgrid__mail" href={`mailto:${profile.email}`} title="Primary Email">
               <EnvelopeSimple size={16} weight="fill" aria-hidden="true" />
               <span>{profile.email}</span>
             </a>
-            <ul className="cgrid__socials" role="list">
-              {profile.socials.map((s) => (
-                <li key={s.label}>
-                  <a className="cgrid__social" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
-                    <img src={s.iconPath} alt="" loading="lazy" decoding="async" />
-                  </a>
-                </li>
-              ))}
-            </ul>
+
+            {profile.secondaryEmail ? (
+              <a className="cgrid__mail" href={`mailto:${profile.secondaryEmail}`} title="Alternate Email" style={{ opacity: 0.9 }}>
+                <EnvelopeSimple size={16} weight="duotone" aria-hidden="true" />
+                <span>{profile.secondaryEmail}</span>
+              </a>
+            ) : null}
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '6px', fontSize: '12.5px', color: 'var(--muted)' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={14} weight="fill" style={{ color: 'var(--orange)' }} />
+                <span>Freelance: <strong>{profile.phone.freelance}</strong></span>
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={14} weight="fill" style={{ color: 'var(--orange)' }} />
+                <span>Business: <strong>{profile.phone.business}</strong></span>
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '6px', paddingTop: '10px', borderTop: '1px solid var(--line)' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'var(--muted)' }}>
+                <MapPin size={14} weight="fill" />
+                <span>{profile.location}</span>
+              </span>
+              <a
+                href="https://www.linkedin.com/in/shainadellomas/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#0A66C2',
+                  textDecoration: 'none',
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  background: 'rgba(10, 102, 194, 0.08)',
+                }}
+              >
+                <LinkedinLogo size={16} weight="fill" />
+                <span>Connect on LinkedIn</span>
+              </a>
+            </div>
           </div>
         </aside>
 
-        {/* Right: the form. */}
+        {/* Right: The message form */}
         <div className="cgrid__panel">
           {status.kind === 'sent' ? (
             <div className="cgrid__done" role="status">
@@ -128,22 +144,19 @@ export default function ContactGrid() {
                 <CheckCircle size={30} weight="fill" />
               </span>
               <h2 className="cgrid__done-title">
-                {status.via === 'webhook' ? 'Got it.' : 'Your mail app has it.'}
+                {status.via === 'webhook' ? 'Message received!' : 'Opening your email client...'}
               </h2>
               <p className="cgrid__done-body">
                 {status.via === 'webhook'
-                  ? 'It is in my inbox and on my phone. You will hear back within one business day.'
-                  : 'The message is laid out and addressed. Press send there and you will hear back within one business day.'}
+                  ? 'Your message is in my inbox. I typically reply within a few hours during active shifts.'
+                  : 'Your message has been formatted. Press send in your mail app, or email me directly at workwithshainadellomas@gmail.com.'}
               </p>
               <button type="button" className="cgrid__again" onClick={() => setStatus({ kind: 'idle' })}>
-                Write another
+                Send another message
               </button>
             </div>
           ) : (
             <form className={`cgrid__form${busy ? ' is-sending' : ''}`} onSubmit={onSubmit} noValidate>
-              {/* Honeypot. Hidden from people and assistive tech; a script that
-                  fills every field trips it and the backend can drop the
-                  post. autoComplete off so a browser never fills it either. */}
               <input
                 type="text"
                 name="website"
@@ -155,26 +168,26 @@ export default function ContactGrid() {
               <div className="cgrid__row">
                 <label className="cgrid__field">
                   <span className="cgrid__label">First name</span>
-                  <input type="text" name="firstName" autoComplete="given-name" required maxLength={MAX_NAME} placeholder="First name" />
+                  <input type="text" name="firstName" autoComplete="given-name" required maxLength={MAX_NAME} placeholder="Your first name" />
                 </label>
                 <label className="cgrid__field">
                   <span className="cgrid__label">Last name</span>
-                  <input type="text" name="lastName" autoComplete="family-name" required maxLength={MAX_NAME} placeholder="Last name" />
+                  <input type="text" name="lastName" autoComplete="family-name" required maxLength={MAX_NAME} placeholder="Your last name" />
                 </label>
               </div>
 
               <label className="cgrid__field">
                 <span className="cgrid__label">Email</span>
-                <input type="email" name="email" autoComplete="email" required maxLength={MAX_EMAIL} placeholder="you@yourbusiness.com" />
+                <input type="email" name="email" autoComplete="email" required maxLength={MAX_EMAIL} placeholder="you@yourcompany.com" />
               </label>
 
               <label className="cgrid__field cgrid__field--grow">
-                <span className="cgrid__label">Tell me more about your business</span>
+                <span className="cgrid__label">How can I help your business?</span>
                 <textarea
                   name="message"
                   required
                   maxLength={MAX_MESSAGE}
-                  placeholder="What do you need help with? What are you working with today?"
+                  placeholder="Tell me about your customer support volume, store operations, admin tasks, or shift hours needed..."
                 />
               </label>
 
@@ -188,7 +201,7 @@ export default function ContactGrid() {
                   <span className="cgrid__submit-plane" aria-hidden="true">
                     <PaperPlaneTilt size={17} weight="fill" />
                   </span>
-                  <span className="cgrid__submit-label">{busy ? 'Sending' : 'Send message'}</span>
+                  <span className="cgrid__submit-label">{busy ? 'Sending...' : 'Send message'}</span>
                   <ArrowUpRight className="cgrid__submit-arrow" size={15} weight="bold" aria-hidden="true" />
                 </button>
                 {status.kind === 'error' ? (
@@ -197,7 +210,9 @@ export default function ContactGrid() {
                     {status.note}
                   </span>
                 ) : (
-                  <span className="cgrid__hint">Short reassurance line, e.g. your reply time.</span>
+                  <span className="cgrid__hint">
+                    Fast, thoughtful communication · US / UK / AU overlap
+                  </span>
                 )}
               </div>
             </form>

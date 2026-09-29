@@ -72,18 +72,13 @@ export function useLenis() {
       // scroller. Passing a non-scrolling wrapper freezes the page.
       const panel = getScroller()
       const usesPanel = !!panel && window.innerWidth >= 1100
-      const content = panel?.firstElementChild as HTMLElement | undefined
 
       const lenis = new Lenis({
-        ...(usesPanel && content ? { wrapper: panel, content } : {}),
-        // Shorter duration + steeper exponential easing makes the wheel feel
-        // responsive instead of heavy. 1.1s read as "the page is sluggish".
-        // 0.9s with a steeper curve still smooths native step jumps but
-        // settles fast enough that input does not feel disconnected.
-        duration: 0.9,
+        ...(usesPanel ? { wrapper: panel } : {}),
+        duration: 0.8,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -12 * t)),
         smoothWheel: true,
-        wheelMultiplier: 1,
+        wheelMultiplier: 1.1,
         touchMultiplier: 1.5,
       })
 
@@ -96,6 +91,12 @@ export function useLenis() {
       }
       gsap.ticker.add(tick)
       gsap.ticker.lagSmoothing(0)
+
+      // Listen for window resize or page changes to update Lenis bounds
+      const onResize = () => {
+        lenis.resize()
+      }
+      window.addEventListener('resize', onResize)
 
       // Intercept in-page anchor clicks (#about, #works, #contact, etc.)
       // and smooth-scroll via Lenis instead of letting the browser hard-jump.
@@ -112,19 +113,20 @@ export function useLenis() {
 
         if (href === '#top') {
           e.preventDefault()
-          lenis.scrollTo(0, { duration: 1.1 })
+          lenis.scrollTo(0, { duration: 0.9 })
           history.replaceState(null, '', ' ')
           return
         }
         const target = document.querySelector(href) as HTMLElement | null
         if (!target) return
         e.preventDefault()
-        lenis.scrollTo(target, { offset: NAV_OFFSET, duration: 1.1 })
+        lenis.scrollTo(target, { offset: NAV_OFFSET, duration: 0.9 })
         history.replaceState(null, '', href)
       }
       document.addEventListener('click', onAnchorClick)
 
       cleanup = () => {
+        window.removeEventListener('resize', onResize)
         document.removeEventListener('click', onAnchorClick)
         gsap.ticker.remove(tick)
         lenis.destroy()

@@ -38,17 +38,22 @@ type Tool = {
 }
 
 export const tools: Tool[] = [
-  { name: 'Claude Code',          iconPath: '/icons/claude-code-logo.png' },
-  { name: 'Codex',                iconPath: '/icons/codex.svg',           color: '#000000' },
-  { name: 'Cursor',               iconPath: '/icons/cursor.svg',          color: '#0F172A' },
-  { name: 'Hermes AI',            iconPath: '/icons/nousresearch.svg',    color: '#18181B' },
-  { name: 'VS Code',              iconPath: '/icons/vscode.svg' },
-  { name: 'GoHighLevel',          iconPath: '/icons/gohighlevel.png' },
-  { name: 'Lightspeed X-Series',  iconPath: '/icons/lightspeed.png' },
+  { name: 'Zendesk',              iconPath: '/icons/zendesk.svg',             color: '#03363D' },
+  { name: 'TikTok Shop / Byte',   iconPath: '/icons/tools/bytehi.svg' },
   { name: 'Google Workspace',     iconPath: '/icons/googleworkspace.svg' },
-  { name: 'Zendesk',              iconPath: '/icons/zendesk.svg',         color: '#03363D' },
-  { name: 'Intercom',             iconPath: '/icons/intercom.svg',        color: '#1F8DED' },
-  { name: 'Slack',                iconPath: '/icons/slack.svg',           color: '#611F69' },
+  { name: 'Slack',                iconPath: '/icons/slack.svg',               color: '#611F69' },
+  { name: 'HubSpot',              iconPath: '/icons/tools/hubspot.svg' },
+  { name: 'GoHighLevel',          iconPath: '/icons/gohighlevel.png' },
+  { name: 'Klaviyo',              iconPath: '/icons/tools/klaviyo.svg' },
+  { name: 'Claude AI',            iconPath: '/icons/ai/claude-color.svg' },
+  { name: 'ChatGPT',              iconPath: '/icons/openai.svg',              color: '#10A37F' },
+  { name: 'Canva',                iconPath: '/icons/tools/canva.svg' },
+  { name: 'CapCut',               iconPath: '/icons/tools/capcut.svg' },
+  { name: 'Zoom',                 iconPath: '/icons/tools/zoom.svg' },
+  { name: 'Calendly',             iconPath: '/icons/tools/calendly.svg' },
+  { name: 'Microsoft Teams',      iconPath: '/icons/tools/teams.svg' },
+  { name: 'WhatsApp',             iconPath: '/icons/tools/whatsapp.svg' },
+  { name: 'Grammarly',            iconPath: '/icons/tools/grammarly.svg' },
 ]
 
 export default function ToolsMarquee() {

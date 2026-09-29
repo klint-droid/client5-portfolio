@@ -1,23 +1,23 @@
 import { Link } from 'react-router-dom'
-import { SealCheck, CaretRight, Play, Stack, Coffee } from '@/components/slab'
+import {
+  SealCheck,
+  CaretRight,
+  Stack,
+  ChartLineUp,
+  Briefcase,
+  Wrench,
+  Certificate,
+  Desktop,
+  User,
+  Sparkle,
+} from '@/components/slab'
 import { profile } from '@/data/profile'
 import QuickMenu from './QuickMenu'
-
-/**
- * Home on a phone, the parts the rail and the bento used to carry:
- *
- *   HomeProfile  avatar, name, verified mark, handle and the QuickMenu
- *                (theme + accessibility) - the rail's identity block, laid flat
- *   HomeStats    three proof facts (profile.stats), each named by a glyph so
- *                it reads at a glance
- *   HomeExplore  one shelf card per rail view in a snap row, then the first
- *                testimonial as a video stage
- */
 
 export function HomeProfile() {
   return (
     <header className="hprofile">
-      <img className="hprofile__avatar" src={profile.avatarSrc} alt="" width={56} height={56} />
+      <img className="hprofile__avatar" src={profile.avatarSrc} alt={profile.name} width={56} height={56} />
       <div className="hprofile__who">
         <span className="hprofile__name">
           {profile.name}
@@ -47,28 +47,28 @@ export function HomeStats() {
 }
 
 const TILES = [
-  { n: '01', label: 'Projects', to: '/projects', title: 'PLACEHOLDER - projects headline', desc: 'Tell me what to put here.', img: '/placeholders/project-1.jpg' },
-  { n: '02', label: 'Services', to: '/services', title: 'PLACEHOLDER - services headline', desc: 'Tell me what to put here.', Icon: Stack },
-  { n: '03', label: 'Showcase', to: '/showcase', title: 'PLACEHOLDER - your flagship', desc: 'Tell me what to put here.', Icon: Coffee, accent: true },
-  { n: '04', label: 'Testimonials', to: '/testimonials', title: 'PLACEHOLDER - testimonials headline', desc: 'Tell me what to put here.', img: '/placeholders/testimonial-1.jpg' },
-  { n: '05', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}.`, desc: 'PLACEHOLDER - one line about you.', img: profile.avatarSrc },
+  { n: '01', label: 'Results', to: '/results', title: 'Numbers that speak', desc: '80+ daily chats, 10m response time, 100% compliance.', Icon: ChartLineUp, accent: true },
+  { n: '02', label: 'Services', to: '/services', title: 'Hand off the busywork', desc: 'Customer support, e-commerce, general admin & AI tasks.', Icon: Stack },
+  { n: '03', label: 'Experience', to: '/experience', title: 'Proven under volume', desc: 'Concentrix TikTok Shop frontline, Amazon inbound, AI data.', Icon: Briefcase },
+  { n: '04', label: 'Tools', to: '/tools', title: 'Tech Stack', desc: 'Fluent in Zendesk, Google Workspace, Slack, HubSpot & AI.', Icon: Wrench },
+  { n: '05', label: 'Credentials', to: '/credentials', title: 'Always learning', desc: 'PRC Licensed Professional Teacher & Cum Laude graduate.', Icon: Certificate },
+  { n: '06', label: 'Setup', to: '/setup', title: 'Remote Readiness', desc: 'Redundant fiber, UPS backup, pro noise-cancelling audio.', Icon: Desktop },
+  { n: '07', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}`, desc: 'Calm, capable right hand for busy founders and brands.', Icon: User },
 ] as const
 
 export function HomeExplore() {
   return (
     <>
       <div className="hsec">
-        <h2 className="hsec__title">Explore</h2>
+        <h2 className="hsec__title">Explore Portfolio</h2>
       </div>
       <ul className="htiles" role="list">
         {TILES.map((t) => (
           <li key={t.to}>
             <Link to={t.to} className={`htile${'accent' in t && t.accent ? ' htile--accent' : ''}`}>
-              {'img' in t ? (
-                <span className="htile__media"><img className="htile__img" src={t.img} alt="" loading="lazy" /></span>
-              ) : (
-                <span className="htile__media htile__glyph"><t.Icon size={52} weight="duotone" aria-hidden="true" /></span>
-              )}
+              <span className="htile__media htile__glyph">
+                <t.Icon size={44} weight="duotone" aria-hidden="true" />
+              </span>
               <span className="htile__body">
                 <span className="htile__n">{t.n} {t.label}</span>
                 <span className="htile__title">{t.title}</span>
@@ -79,24 +79,23 @@ export function HomeExplore() {
         ))}
       </ul>
 
-      {/* A header that links carries its chevron on the title itself. */}
+      {/* Featured Proof Card */}
       <div className="hsec">
         <h2 className="hsec__title">
-          <Link to="/testimonials" className="hsec__link">
-            What clients say
+          <Link to="/results" className="hsec__link">
+            Key Impact
             <CaretRight size={16} weight="bold" aria-hidden="true" />
           </Link>
         </h2>
       </div>
-      <Link to="/testimonials" className="hproof" aria-label="Client testimonial. PLACEHOLDER - a one-line teaser for your best testimonial.">
-        <span className="hproof__stage">
-          <img src="/placeholders/testimonial-1.jpg" alt="" loading="lazy" />
-          <span className="hproof__play" aria-hidden="true"><Play size={20} weight="fill" /></span>
-          <span className="hproof__dur" aria-hidden="true">0:00</span>
+      <Link to="/results" className="hproof" aria-label="View verified impact metrics">
+        <span className="hproof__stage" style={{ background: 'var(--navy)', display: 'grid', placeItems: 'center' }}>
+          <Sparkle size={28} weight="fill" style={{ color: 'var(--orange)' }} />
+          <span className="hproof__dur" aria-hidden="true">Verified</span>
         </span>
         <span className="hproof__copy">
-          <span className="hproof__title">PLACEHOLDER - tell me what to put here: a one-line teaser for your best testimonial.</span>
-          <span className="hproof__meta">PLACEHOLDER - client role</span>
+          <span className="hproof__title">5 simultaneous chats resolved daily without dropping quality</span>
+          <span className="hproof__meta">Concentrix · TikTok Shop Frontline Support</span>
         </span>
       </Link>
     </>

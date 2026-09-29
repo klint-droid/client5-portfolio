@@ -13,10 +13,12 @@
 }
 @media (min-width: 1100px) {
   .pgrid {
-    height: 100%;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    min-height: 0;
+    min-height: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 3vh, 36px);
+    padding-bottom: clamp(60px, 8vh, 100px);
   }
 }
 
@@ -74,8 +76,8 @@
 }
 .pgrid__hint svg { color: var(--orange); }
 @media (min-width: 1100px) {
-  .pgrid__glass { height: 100%; display: flex; }
-  .bento--projects { flex: 1 1 auto; height: 100%; }
+  .pgrid__glass { height: auto; min-height: unset; display: flex; }
+  .bento--projects { flex: 1 1 auto; height: auto; }
   .bento__card--wide { grid-column: span 2; }
 }
 .bento__card--btn {

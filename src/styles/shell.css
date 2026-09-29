@@ -36,9 +36,10 @@
     flex: 1 1 auto;
     min-width: 0;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: auto !important;
     overflow-x: hidden;
-    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
+    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--line-strong) transparent;
   }
@@ -48,9 +49,6 @@
     background: var(--line-strong);
     border-radius: var(--radius-pill);
   }
-
-  /* Home opts out of scrolling entirely: it is laid out to the panel box. */
-  .shell__panel[data-fixed='true'] { overflow: hidden; }
 }
 
 /* ---------- Scrolling views ----------

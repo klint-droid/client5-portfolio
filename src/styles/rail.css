@@ -12,11 +12,13 @@
     width: var(--rail-w);
     flex: 0 0 var(--rail-w);
     height: 100%;
-    padding: clamp(28px, 4vh, 52px) 30px 28px;
+    padding: clamp(16px, 2.5vh, 28px) 24px 16px;
     overflow-y: auto;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
   }
-  .rail::-webkit-scrollbar { display: none; }
+  .rail::-webkit-scrollbar { width: 4px; }
+  .rail::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 
   .rail__inner {
     display: flex;
@@ -25,23 +27,22 @@
     min-height: 100%;
   }
 
-  /* Tied to viewport height, not fixed: at 800px tall the fixed sizes pushed
-     the column past the shell and the copyright scrolled out of sight. */
   .rail__avatar {
     position: relative;
     display: block;
-    width: clamp(132px, 21vh, 190px);
-    aspect-ratio: 1;
-    /* The full cutout figure, no crop and no disc: it sits straight on the
-       page the way About seats it, with only a soft orange glow behind. */
+    width: 90px;
+    height: 90px;
+    flex: 0 0 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 24px -6px rgba(6, 12, 26, 0.25), 0 0 0 3px var(--white);
   }
   .rail__avatar::before {
     content: '';
     position: absolute;
-    inset: 18% 4% 0;
+    inset: 0;
     border-radius: 50%;
-    background: radial-gradient(ellipse at 50% 70%, rgba(255, 122, 26, 0.32), transparent 66%);
-    filter: blur(22px);
+    background: radial-gradient(ellipse at 50% 70%, rgba(255, 122, 26, 0.15), transparent 70%);
     pointer-events: none;
   }
   .rail__avatar img {
@@ -49,22 +50,16 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-    filter: drop-shadow(0 14px 22px rgba(6, 12, 26, 0.35));
-    /* The cutout ends in a flat line across the tee. One ellipse anchored
-       high dissolves the bottom edge and both shoulders into the page while
-       the head stays fully opaque - the same fade About uses. */
-    -webkit-mask-image: radial-gradient(ellipse 80% 86% at 50% 24%, #000 50%, transparent 100%);
-    mask-image: radial-gradient(ellipse 80% 86% at 50% 24%, #000 50%, transparent 100%);
+    object-fit: cover;
+    object-position: center top;
   }
 
   .rail__name {
     display: flex;
     align-items: center;
     gap: 7px;
-    margin-top: 20px;
-    font-size: 22px;
+    margin-top: 12px;
+    font-size: 19px;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -75,8 +70,8 @@
   .rail__name svg { color: var(--verified); flex-shrink: 0; }
 
   .rail__handle {
-    margin-top: 5px;
-    font-size: 14.5px;
+    margin-top: 3px;
+    font-size: 13px;
     color: var(--muted);
   }
   /* live visitor count, the same stat the phone shell shows */
@@ -92,15 +87,15 @@
   .rail__actions {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 18px;
+    gap: 8px;
+    margin-top: 10px;
   }
 
   .rail__theme {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: var(--radius-circle);
     background: var(--white);
     color: var(--navy);
@@ -119,14 +114,14 @@
   .rail__socials {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     list-style: none;
   }
   .rail__social {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: var(--radius-circle);
     background: var(--white);
     color: var(--navy);
@@ -146,8 +141,8 @@
   }
   .rail__social-icon {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     background: currentColor;
     -webkit-mask: var(--icon-url) center / contain no-repeat;
             mask: var(--icon-url) center / contain no-repeat;
@@ -155,19 +150,19 @@
 
   .rail__nav {
     width: 100%;
-    margin-top: clamp(20px, 3vh, 32px);
-    padding-top: clamp(18px, 2.6vh, 28px);
+    margin-top: clamp(8px, 1.4vh, 16px);
+    padding-top: clamp(8px, 1.4vh, 14px);
     border-top: 1px solid var(--line);
   }
   .rail__nav ul { display: flex; flex-direction: column; gap: 3px; list-style: none; }
   .rail__link {
     display: flex;
     align-items: center;
-    gap: 15px;
-    height: clamp(46px, 6vh, 54px);
-    padding: 0 16px;
-    border-radius: 14px;
-    font-size: 17px;
+    gap: 10px;
+    height: 35px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 13.5px;
     font-weight: 500;
     color: var(--muted);
     transition: color var(--dur-fast) var(--ease-out),
@@ -250,10 +245,10 @@
   .rail__copy {
     width: 100%;
     margin-top: auto;
-    padding-top: clamp(24px, 4vh, 40px);
+    padding-top: clamp(14px, 2vh, 24px);
     border-top: 1px solid var(--line);
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 11.5px;
+    line-height: 1.6;
     color: var(--muted);
     /* left-aligned past the accessibility button that sits in this corner */
     padding-left: 52px;

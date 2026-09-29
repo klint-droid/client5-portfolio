@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="10" fill="#001E36"/>
+    <rect x="3" y="3" width="42" height="42" rx="8" fill="none" stroke="#31A8FF" stroke-width="2"/>
+    <text x="17" y="31" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="18" fill="#31A8FF">L</text>
+    <text x="28" y="31" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="18" fill="#31A8FF">r</text>
+  </svg>
