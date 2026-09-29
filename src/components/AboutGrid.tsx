@@ -1,5 +1,18 @@
-import { ArrowUpRight, MapPin, SealCheck, GraduationCap, Lightning, ChatCircleDots, Eye, ShieldCheck } from '@/components/slab'
-import { profile } from '@/data/profile'
+import { useState, useEffect, useCallback } from 'react'
+import {
+  ArrowUpRight,
+  MapPin,
+  SealCheck,
+  GraduationCap,
+  Lightning,
+  ChatCircleDots,
+  Eye,
+  ShieldCheck,
+  CaretLeft,
+  CaretRight,
+  Sparkle,
+} from '@/components/slab'
+import { profile, shainaPhoto, shainaGradPhoto, shainaWhitePhoto } from '@/data/profile'
 import { Link } from 'react-router-dom'
 
 const PILLARS = [
@@ -25,7 +38,63 @@ const PILLARS = [
   },
 ]
 
+const SLIDES = [
+  {
+    src: shainaPhoto,
+    alt: 'Shaina Dellomas - Customer Support Specialist',
+    title: 'Customer Support Specialist',
+    subtitle: '80+ chats daily · Fast resolutions with calm empathy',
+    badge: 'Frontline Support Pro',
+    objectPosition: 'center 15%',
+  },
+  {
+    src: shainaGradPhoto,
+    alt: 'Shaina Dellomas - Cum Laude Graduate & Licensed Professional Teacher',
+    title: 'Cum Laude Graduate & Board-Certified Teacher',
+    subtitle: 'PRC Licensed 2025 · Exceptional work ethic & precision',
+    badge: 'Cum Laude & PRC Licensed',
+    objectPosition: 'center 20%',
+  },
+  {
+    src: shainaWhitePhoto,
+    alt: 'Shaina Dellomas - Executive Virtual Assistant',
+    title: 'Executive & Operational Right Hand',
+    subtitle: 'US / UK / AU timezone flexible · Autonomous execution',
+    badge: 'Executive VA Ready',
+    objectPosition: 'center 15%',
+  },
+]
+
 export default function AboutGrid() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % SLIDES.length)
+  }, [])
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + SLIDES.length) % SLIDES.length)
+  }, [])
+
+  useEffect(() => {
+    if (isPaused) return
+    const timer = setInterval(() => {
+      nextSlide()
+    }, 4500)
+    return () => clearInterval(timer)
+  }, [isPaused, nextSlide])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      prevSlide()
+    } else if (e.key === 'ArrowRight') {
+      nextSlide()
+    }
+  }
+
+  const currentSlide = SLIDES[currentIndex]
+
   return (
     <section className="pgrid agrid" aria-labelledby="about-title">
       <header className="pgrid__head">
@@ -124,16 +193,95 @@ export default function AboutGrid() {
           </div>
         </div>
 
-        <div className="agrid__portrait">
-          <img
-            src={profile.avatarSrc}
-            alt="Shaina Dellomas - Virtual Assistant"
-            loading="eager"
-            decoding="async"
-            width={400}
-            height={400}
-            style={{ borderRadius: '20px', objectFit: 'cover' }}
-          />
+        <div
+          className="agrid__slideshow"
+          role="region"
+          aria-label="Shaina Dellomas Photo Slideshow"
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div className="agrid__slides-wrap">
+            {SLIDES.map((slide, idx) => {
+              const isActive = idx === currentIndex
+              return (
+                <div
+                  key={slide.src}
+                  className={`agrid__slide ${isActive ? 'is-active' : ''}`}
+                  aria-hidden={!isActive}
+                >
+                  <img
+                    src={slide.src}
+                    alt={slide.alt}
+                    className="agrid__slide-img"
+                    style={{ objectPosition: slide.objectPosition }}
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Vignette gradient overlay for high contrast text & buttons */}
+          <div className="agrid__slide-gradient" aria-hidden="true" />
+
+          {/* Floating status badge */}
+          <div key={`badge-${currentIndex}`} className="agrid__slide-badge">
+            <Sparkle size={12} weight="fill" style={{ color: 'var(--orange)' }} />
+            <span>{currentSlide.badge}</span>
+          </div>
+
+          {/* Counter indicator */}
+          <div className="agrid__slide-counter" aria-live="polite">
+            <span>{`0${currentIndex + 1}`}</span>
+            <span style={{ opacity: 0.5 }}>/</span>
+            <span style={{ opacity: 0.7 }}>{`0${SLIDES.length}`}</span>
+          </div>
+
+          {/* Bottom info caption and control bar */}
+          <div className="agrid__slide-footer">
+            <div key={`info-${currentIndex}`} className="agrid__slide-info">
+              <h3 className="agrid__slide-title">{currentSlide.title}</h3>
+              <p className="agrid__slide-sub">{currentSlide.subtitle}</p>
+            </div>
+
+            <div className="agrid__slide-controls">
+              <div className="agrid__slide-dots" role="tablist" aria-label="Photo indicators">
+                {SLIDES.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`agrid__slide-dot ${idx === currentIndex ? 'is-active' : ''}`}
+                    onClick={() => setCurrentIndex(idx)}
+                    aria-label={`Jump to photo ${idx + 1}`}
+                    aria-selected={idx === currentIndex}
+                    role="tab"
+                  />
+                ))}
+              </div>
+
+              <div className="agrid__slide-nav">
+                <button
+                  type="button"
+                  className="agrid__slide-btn"
+                  onClick={prevSlide}
+                  aria-label="Previous photo"
+                >
+                  <CaretLeft size={16} weight="bold" />
+                </button>
+                <button
+                  type="button"
+                  className="agrid__slide-btn"
+                  onClick={nextSlide}
+                  aria-label="Next photo"
+                >
+                  <CaretRight size={16} weight="bold" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

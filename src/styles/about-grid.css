@@ -230,34 +230,220 @@
     0 2px 6px -3px rgba(0, 0, 0, 0.6);
 }
 
-/* ---------- Right: the illustration ----------
-   Bottom-aligned so the art sits on the floor of the sheet rather than floating in
-   the middle of it, and pulled into the sheet's corner by the glass padding
-   so the art gains that much size instead of leaving a margin of empty
-   gradient. The art has a transparent background and already carries the
-   site's navy and blue, so it needs no plate behind it. */
-.agrid__portrait {
+/* ---------- Animated Slideshow in About ---------- */
+.agrid__slideshow {
   position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 480px;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 540px;
   height: 100%;
+  align-self: stretch;
+  width: 100%;
   min-width: 0;
   margin: 0;
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--navy);
   border: 1px solid var(--line-strong);
-  box-shadow: 0 20px 48px -20px rgba(6, 12, 26, 0.45);
+  box-shadow: 0 24px 56px -24px rgba(6, 12, 26, 0.45);
+  outline: none;
 }
-.agrid__portrait img {
-  display: block;
+
+.agrid__slideshow:focus-visible {
+  box-shadow: 0 0 0 3px var(--orange), 0 24px 56px -24px rgba(6, 12, 26, 0.45);
+}
+
+@keyframes slideTextFade {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.agrid__slides-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.agrid__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.04);
+  transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.agrid__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.agrid__slide-img {
   width: 100%;
   height: 100%;
-  max-width: 100%;
   object-fit: cover;
-  object-position: center 15%;
+  display: block;
+}
+
+/* Vignette gradient over the bottom so text and buttons are razor sharp */
+.agrid__slide-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 12, 26, 0.12) 0%,
+    transparent 35%,
+    rgba(6, 12, 26, 0.72) 72%,
+    rgba(6, 12, 26, 0.94) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Floating top badge */
+.agrid__slide-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: rgba(6, 12, 26, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Counter indicator (e.g. 01 / 03) */
+.agrid__slide-counter {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(6, 12, 26, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Bottom info & controls bar */
+.agrid__slide-footer {
+  position: relative;
+  z-index: 4;
+  padding: 20px 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.agrid__slide-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  animation: slideTextFade 360ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.agrid__slide-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.agrid__slide-sub {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.agrid__slide-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.agrid__slide-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.agrid__slide-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 300ms var(--ease-spring);
+}
+
+.agrid__slide-dot.is-active {
+  width: 26px;
+  background: var(--orange);
+  box-shadow: 0 0 12px rgba(255, 122, 26, 0.7);
+}
+
+.agrid__slide-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.agrid__slide-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 200ms var(--ease-out);
+}
+
+.agrid__slide-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
 }
 
 /* ---------- Below the shell ---------- */
@@ -265,10 +451,20 @@
   .agrid__glass { display: flex; flex-direction: column; gap: 20px; }
   .agrid__copy { padding-left: 0; }
   .agrid__lead { max-width: none; }
-  /* The corner pull is a two-column move; stacked, it just runs the art off
-     the right edge of the sheet. */
+  .agrid__slideshow {
+    order: -1;
+    min-height: 440px;
+    height: 480px;
+    margin: 0 0 8px;
+  }
   .agrid__portrait { order: -1; height: min(38vh, 300px); margin: 0; justify-content: center; }
   .agrid__portrait img { object-position: bottom center; }
+}
+@media (max-width: 640px) {
+  .agrid__slideshow {
+    min-height: 380px;
+    height: 400px;
+  }
 }
 @media (max-width: 720px) {
   .agrid__bar { grid-template-columns: minmax(0, 1fr); }
