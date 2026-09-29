@@ -49,6 +49,13 @@
     background: var(--line-strong);
     border-radius: var(--radius-pill);
   }
+
+  .shell__content {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
 }
 
 /* ---------- Scrolling views ----------

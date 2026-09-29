@@ -12,30 +12,28 @@
     width: var(--rail-w);
     flex: 0 0 var(--rail-w);
     height: 100%;
-    padding: clamp(16px, 2.5vh, 28px) 24px 16px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--line) transparent;
+    padding: 16px 20px 12px;
+    overflow: hidden;
   }
-  .rail::-webkit-scrollbar { width: 4px; }
-  .rail::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 
   .rail__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
     min-height: 100%;
   }
 
   .rail__avatar {
     position: relative;
     display: block;
-    width: 90px;
-    height: 90px;
-    flex: 0 0 90px;
+    width: 76px;
+    height: 76px;
+    flex: 0 0 76px;
     border-radius: 50%;
     overflow: hidden;
-    box-shadow: 0 8px 24px -6px rgba(6, 12, 26, 0.25), 0 0 0 3px var(--white);
+    margin-bottom: 2px;
+    box-shadow: 0 6px 20px -4px rgba(6, 12, 26, 0.25), 0 0 0 3px var(--white);
   }
   .rail__avatar::before {
     content: '';
@@ -57,9 +55,9 @@
   .rail__name {
     display: flex;
     align-items: center;
-    gap: 7px;
-    margin-top: 12px;
-    font-size: 19px;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 16.5px;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -70,8 +68,8 @@
   .rail__name svg { color: var(--verified); flex-shrink: 0; }
 
   .rail__handle {
-    margin-top: 3px;
-    font-size: 13px;
+    margin-top: 1px;
+    font-size: 12px;
     color: var(--muted);
   }
   /* live visitor count, the same stat the phone shell shows */
@@ -87,15 +85,15 @@
   .rail__actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 6px;
+    margin-top: 6px;
   }
 
   .rail__theme {
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     border-radius: var(--radius-circle);
     background: var(--white);
     color: var(--navy);
@@ -108,26 +106,26 @@
     box-shadow: inset 0 0 0 1px var(--line-strong);
   }
 
-  /* ---------- Social row ----------
-     Circular plates, the mark tinted by currentColor through a CSS mask so one
-     black silhouette per brand serves both themes. */
+  /* ---------- Social row ---------- */
   .rail__socials {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     list-style: none;
+    margin: 0;
+    padding: 0;
   }
   .rail__social {
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     border-radius: var(--radius-circle);
     background: var(--white);
     color: var(--navy);
     box-shadow:
       inset 0 0 0 1px var(--line),
-      0 10px 24px -18px rgba(6, 12, 26, 0.55);
+      0 8px 18px -14px rgba(6, 12, 26, 0.45);
     transition: transform var(--dur-med) var(--ease-spring),
                 color var(--dur-fast) var(--ease-out),
                 box-shadow var(--dur-fast) var(--ease-out);

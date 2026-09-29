@@ -31,7 +31,6 @@ export default function App() {
   useLenis()
 
   const { pathname } = useLocation()
-  const isFixed = false
   // Below the shell breakpoint the rail is gone: a bottom tab bar navigates,
   // the QuickMenu (theme + accessibility) floats top-right on every page but
   // Home (whose profile header carries it), and the visits widget folds into
@@ -108,11 +107,12 @@ export default function App() {
           ref={panelRef}
           id={SCROLLER_ID}
           className="shell__panel"
-          data-fixed={isFixed ? 'true' : 'false'}
         >
-          <Suspense fallback={null}>
-            <Outlet />
-          </Suspense>
+          <div id="scroller-content" className="shell__content">
+            <Suspense fallback={null}>
+              <Outlet />
+            </Suspense>
+          </div>
         </main>
       </div>
       {phone && <TabBar />}
